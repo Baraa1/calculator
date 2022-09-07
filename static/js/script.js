@@ -27,6 +27,17 @@ function displayNumber(num) {
     display.textContent += num;
 }
 
+function deleteNum() {
+    const del_btn = document.querySelector('.delete-btn');
+    del_btn.addEventListener('click', () => {
+        if (!display.textContent[1]) {
+            display.textContent = 0;
+            return;
+        }
+        display.textContent = display.textContent.slice(0, -1);
+    })
+}
+
 function numbers() {
     const zero = document.querySelector('.zero');
     const one = document.querySelector('.one');
@@ -149,5 +160,6 @@ function operate() {
 document.querySelector('.equal').addEventListener('click', () => {operate()});
 
 resetDisplay();
+deleteNum();
 numbers();
 operators();
