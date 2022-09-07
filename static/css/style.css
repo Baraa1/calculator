@@ -31,7 +31,7 @@ html {
 }
 
 .results .display {
-    flex-grow: 9;/* 90% results 10% delete button*/
+    flex-basis: 80%;/* 80% results 20% delete button*/
     flex-shrink: 1;
     color: whitesmoke;
     margin-left:0.55em;
@@ -39,11 +39,11 @@ html {
 }
 
 .results .delete-btn {
-    flex-grow: 1;/* 90% results 10% delete button*/
+    flex-basis: 20%;/* 80% results 20% delete button*/
     flex-shrink: 0;
     color: whitesmoke;
     border: none;
-    background-color: lightslategray;
+    background-color: darkslategray;
     font-size: 1rem;
     font-weight: 900;
 }
