@@ -139,7 +139,8 @@ function division(a, b) {
 }
 
 function operate() {
-    if (operator === "") return;
+    console.log(isNaN(display.textContent));
+    if (operator === "" || isNaN(display.textContent)) return;
     second_value=parseInt(display.textContent);
     if (operator === '+') {
         first_value = addition(first_value, second_value);
