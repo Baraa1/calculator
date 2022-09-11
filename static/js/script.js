@@ -14,10 +14,24 @@ function resetDisplay() {
     });
 }
 
+function deleteNum() {
+    const del_btn = document.querySelector('.delete-btn');
+    del_btn.addEventListener('click', () => {
+        if (!display.textContent[1]) {
+            display.textContent = 0;
+            return;
+        }
+        // deletes the last character
+        display.textContent = display.textContent.slice(0, -1);
+    })
+}
+
 // The purpose of this function is to use the if statement to check if an operator is being used once instead of rewriting the same code at every eventlistener 
 function displayNumber(num) {
     if (display.textContent === '+' || display.textContent === '-' || display.textContent === 'x' || display.textContent === '÷') {
         display.textContent = num;
+        second_value = num;
+        operate();
         return;
     }
     if (display.textContent === '0') {
@@ -27,16 +41,7 @@ function displayNumber(num) {
     display.textContent += num;
 }
 
-function deleteNum() {
-    const del_btn = document.querySelector('.delete-btn');
-    del_btn.addEventListener('click', () => {
-        if (!display.textContent[1]) {
-            display.textContent = 0;
-            return;
-        }
-        display.textContent = display.textContent.slice(0, -1);
-    })
-}
+
 
 function numbers() {
     const zero = document.querySelector('.zero');
@@ -98,6 +103,7 @@ function displayOperator(op) {
     first_value = parseInt(display.textContent);
     display.textContent = op;
     operator = op;
+    operate();
 }
 
 function operators() {
@@ -130,16 +136,32 @@ function subtraction(a, b) {
     return a - b;
 }
 
+function isFloat(n){
+    return Number(n) === n && n % 1 !== 0;
+}
+
 function multiplication(a, b) {
-    return a * b;
+    let r = a * b;
+    if (isFloat(r)) {
+        return r.toFixed(2);
+    }
+    return r;
 }
 
 function division(a, b) {
-    return a / b;
+    let r = a / b;
+    if (isFloat(r)) {
+        return r.toFixed(2);
+    }
+    return r;
+}
+
+// call the operate function
+function calc() {
+    document.querySelector('.equal').addEventListener('click', () => {operate()});
 }
 
 function operate() {
-    console.log(isNaN(display.textContent));
     if (operator === "" || isNaN(display.textContent)) return;
     second_value=parseInt(display.textContent);
     if (operator === '+') {
@@ -148,19 +170,17 @@ function operate() {
         first_value = subtraction(first_value, second_value);
     } else if (operator === 'x') {
         first_value = multiplication(first_value, second_value);
-        
     } else if (operator === '÷') {
         first_value = division(first_value, second_value);
     }
+    // calc();
     display.textContent = first_value;
     // reset the operator to prevent multi clicks on the calculation button
     operator = "";
 }
 
-// call the operate function
-document.querySelector('.equal').addEventListener('click', () => {operate()});
-
 resetDisplay();
 deleteNum();
 numbers();
 operators();
+calc();
