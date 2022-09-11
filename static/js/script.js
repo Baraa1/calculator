@@ -34,7 +34,7 @@ function displayNumber(num) {
         operate();
         return;
     }
-    if (display.textContent === '0') {
+    if (display.textContent === '0' && num !== '.') {
         display.textContent = num;
         return;
     }
@@ -44,6 +44,7 @@ function displayNumber(num) {
 
 
 function numbers() {
+    const dot = document.querySelector('.dot');
     const zero = document.querySelector('.zero');
     const one = document.querySelector('.one');
     const two = document.querySelector('.two');
@@ -54,7 +55,14 @@ function numbers() {
     const seven = document.querySelector('.seven');
     const eight = document.querySelector('.eight');
     const nine = document.querySelector('.nine');
-    
+    dot.addEventListener('click', () => {
+        // prvents multiple dots
+        let text_arr = Array.from(display.textContent)
+        if (text_arr.find(ch => (ch === '.'))) return;
+
+        displayNumber('.');
+    })
+
     zero.addEventListener('click', () => {
         displayNumber(0);
     })
@@ -100,7 +108,7 @@ function displayOperator(op) {
     // prevent the function from assigning an operator to the first value in case of multi clicks
     if (display.textContent === '+' || display.textContent === '-' || display.textContent === 'x' || display.textContent === '÷') return;
     
-    first_value = parseInt(display.textContent);
+    first_value = Number(display.textContent);
     display.textContent = op;
     operator = op;
     operate();
@@ -129,11 +137,19 @@ function operators() {
 }
 
 function addition(a, b) {
-    return a + b;
+    let r = a + b;
+    if (isFloat(r)) {
+        return r.toFixed(2);
+    }
+    return r;
 }
 
 function subtraction(a, b) {
-    return a - b;
+    let r = a - b;
+    if (isFloat(r)) {
+        return r.toFixed(2);
+    }
+    return r;
 }
 
 function isFloat(n){
@@ -163,7 +179,7 @@ function calc() {
 
 function operate() {
     if (operator === "" || isNaN(display.textContent)) return;
-    second_value=parseInt(display.textContent);
+    second_value=Number(display.textContent);
     if (operator === '+') {
         first_value = addition(first_value, second_value);
     } else if (operator === '-') {
